@@ -50,7 +50,8 @@ parser.add_argument('-c', '--colors', type=color, nargs='+', default=default_col
 
 parser.add_argument('-o', '--output', type=str, default='./output.png', metavar='PATH')
 
-args = parser.parse_args(input().split())
+# args = parser.parse_args(input().split())
+args = parser.parse_args()
 
 txt = Image.new('RGBA', args.size, args.bg)
 
