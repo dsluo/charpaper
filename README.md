@@ -8,6 +8,9 @@ Uses Pillow v4.3.0 to generate images. Written in Python 3, but *might* work wit
 
 ## Usage
 
+Works best if you specify your own font. Defaults are for [Iosevka](https://github.com/be5invis/Iosevka) Regular.
+Works best with monospace fonts.
+
 ```
 usage: generate.py [-h] [-s WIDTHxHEIGHT] [-f PATH] [-fs FONT_SIZE]
                    [-vp HORIZONTAL] [-hp VERTICAL] [-bg BACKGROUND]
