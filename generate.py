@@ -7,6 +7,15 @@ parser = argparse.ArgumentParser(description='Generate a desktop background usin
 
 
 def size(s):
+    defaults = {
+        '4k': (3840, 2160),
+        '2k': (2048, 1080),
+        '1440p': (2560, 1440),
+        '1080p': (1920, 1080),
+        '720p': (1280, 720)
+    }
+    if defaults.get(s) is not None:
+        return defaults[s]
     try:
         width, height = map(int, s.split('x'))
         return width, height
@@ -14,11 +23,13 @@ def size(s):
         raise argparse.ArgumentTypeError('Size must be "WIDTHxHEIGHT"')
 
 
-parser.add_argument('-s', '--size', type=size, metavar='WIDTHxHEIGHT', default=(1920, 1080))
-parser.add_argument('-f', '--font', type=str, metavar='PATH')
-parser.add_argument('-fs', '--font-size', type=int, default=48)
-parser.add_argument('-vp', '--vertical-padding', type=int, default=8, dest='v_padd')
-parser.add_argument('-hp', '--horizontal-padding', type=int, default=8, dest='h_padd')
+parser.add_argument('-s', '--size', type=size, default=(1920, 1080), metavar='WIDTHxHEIGHT')
+parser.add_argument('-f', '--font', type=str, metavar='PATH', help='Path to font file.')
+parser.add_argument('-fs', '--font-size', type=int, default=24, help='Font size in pixels.')
+parser.add_argument('-vp', '--vertical-padding', type=int, default=8, dest='v_padd',
+                    help='Vertical padding in pixels.')
+parser.add_argument('-hp', '--horizontal-padding', type=int, default=4, dest='h_padd',
+                    help='Horizontal padding in pixels.')
 
 
 def color(s):
@@ -34,8 +45,10 @@ def color(s):
         raise argparse.ArgumentTypeError('Color must be in hexadecimal format.')
 
 
-parser.add_argument('-bg', '--background', type=color, default=(40, 43, 53, 255), dest='bg')
-parser.add_argument('-ch', '--characters', type=str, default="""`~!@#$%^&*()_+=-[]\{}|;':",./<>?""", dest='chars')
+parser.add_argument('-bg', '--background', type=color, default=(40, 43, 53, 255), dest='bg',
+                    help='Background color in hexadecimal.')
+parser.add_argument('-ch', '--characters', type=str, default="""`~!@#$%^&*()_+=-[]\{}|;':",./<>?""", dest='chars',
+                    help='Characters to use in generation.')
 
 default_colors = [
     (95, 80, 74, 255),
@@ -46,11 +59,11 @@ default_colors = [
     (92, 51, 89, 255),
     (57, 99, 69, 255)
 ]
-parser.add_argument('-c', '--colors', type=color, nargs='+', default=default_colors)
+parser.add_argument('-c', '--colors', type=color, nargs='+', default=default_colors,
+                    help='Colors to use in generation.')
 
 parser.add_argument('-o', '--output', type=str, default='./output.png', metavar='PATH')
 
-# args = parser.parse_args(input().split())
 args = parser.parse_args()
 
 txt = Image.new('RGBA', args.size, args.bg)
