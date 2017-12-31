@@ -14,8 +14,8 @@ def size(s):
         '1080p': (1920, 1080),
         '720p': (1280, 720)
     }
-    if defaults.get(s) is not None:
-        return defaults[s]
+    if defaults.get(s.lower()) is not None:
+        return defaults[s.lower()]
     try:
         width, height = map(int, s.split('x'))
         return width, height
@@ -23,12 +23,13 @@ def size(s):
         raise argparse.ArgumentTypeError('Size must be "WIDTHxHEIGHT"')
 
 
-parser.add_argument('-s', '--size', type=size, default=(1920, 1080), metavar='WIDTHxHEIGHT')
+parser.add_argument('-s', '--size', type=size, default=(1920, 1080), metavar='WIDTHxHEIGHT',
+                    help='WIDTHxHEIGHT or 4k/2k/1440p/1080p/720p.')
 parser.add_argument('-f', '--font', type=str, metavar='PATH', help='Path to font file.')
 parser.add_argument('-fs', '--font-size', type=int, default=24, help='Font size in pixels.')
-parser.add_argument('-vp', '--vertical-padding', type=int, default=8, dest='v_padd',
+parser.add_argument('-vp', '--vertical-padding', type=int, default=8, dest='v_padd', metavar='HORIZONTAL',
                     help='Vertical padding in pixels.')
-parser.add_argument('-hp', '--horizontal-padding', type=int, default=4, dest='h_padd',
+parser.add_argument('-hp', '--horizontal-padding', type=int, default=4, dest='h_padd', metavar='VERTICAL',
                     help='Horizontal padding in pixels.')
 
 
@@ -45,7 +46,7 @@ def color(s):
         raise argparse.ArgumentTypeError('Color must be in hexadecimal format.')
 
 
-parser.add_argument('-bg', '--background', type=color, default=(40, 43, 53, 255), dest='bg',
+parser.add_argument('-bg', '--background', type=color, default=(40, 43, 53, 255), dest='bg', metavar='BACKGROUND',
                     help='Background color in hexadecimal.')
 parser.add_argument('-ch', '--characters', type=str, default="""`~!@#$%^&*()_+=-[]\{}|;':",./<>?""", dest='chars',
                     help='Characters to use in generation.')
