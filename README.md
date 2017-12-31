@@ -34,3 +34,7 @@ optional arguments:
                         Colors to use in generation.
   -o PATH, --output PATH
 ```
+
+## Screenshot
+
+![screenshot](screenshot.png)
